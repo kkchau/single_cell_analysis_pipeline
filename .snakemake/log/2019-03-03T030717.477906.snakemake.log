@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 23 of /home/kkchau/single_cell_analysis_pipeline/Snakefile:
+Missing input files for rule all:
+data/XH2/

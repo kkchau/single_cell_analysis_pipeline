@@ -1,0 +1,1 @@
+echo XH2/home/kkchau/cellranger-3.0.0/cellranger count --id=data/XH2 --fastqs=/home/kkchau/projects/Cul3Mice/XH2 --sample=SI-GA-E2_1,SI-GA-E2_2,SI-GA-E2_3,SI-GA-E2_4 --transcriptome=/home/kkchau/projects/references/refdata-cellranger-mm10-3.0.0 

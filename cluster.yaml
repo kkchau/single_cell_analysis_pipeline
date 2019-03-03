@@ -1,0 +1,5 @@
+__default__:
+    - partition: shared
+    - job-name: JOBNAME.{rule}.{wildcards}
+    - output: log/{rule}.{wildcards}.out
+    - error: log/{rule}.{wildcards}.err

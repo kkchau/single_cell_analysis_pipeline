@@ -1,0 +1,18 @@
+The flag 'directory' used in rule all is only valid for outputs, not inputs.
+The flag 'directory' used in rule all is only valid for outputs, not inputs.
+Building DAG of jobs...
+Job counts:
+	count	jobs
+	1	all
+	1	counts
+	2
+
+[Sun Mar  3 03:08:03 2019]
+rule counts:
+    input: /home/kkchau/projects/Cul3Mice/XH2
+    output: data/XH2
+    jobid: 2
+    wildcards: sample_id=XH2
+
+RuleException in line 27 of /home/kkchau/single_cell_analysis_pipeline/Snakefile:
+NameError: The name 'sample_id' is unknown in this context. Please make sure that you defined that variable. Also note that braces not used for variable access have to be escaped by repeating them, i.e. {{print $1}}
