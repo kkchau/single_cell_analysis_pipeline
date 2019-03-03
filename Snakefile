@@ -34,10 +34,15 @@ rule counts:
         samples = lambda wildcard:
             f"{config['cellranger']['ids'][wildcard.sample_id]['samples']}"
     shell: 
+        "cd data; "
         f"{cellranger} count "
         "--id={wildcards.sample_id} "
         "--fastqs={input.fqs} "
         "--sample={params.samples} "
-        f"--transcriptome={txtome}; "
-        "cp -r {wildcards.sample_id}/outs/filtered_feature_bc_matrix/* data/{wildcards.sample_id}/"
+        f"--transcriptome={txtome}"
 
+rule build_seurat:
+    input: "data/{sample_id}/outs/filtered_feature_bc_matrix/"
+    output:
+    script:
+        "Rscript scripts/build_seurat.R {wildcards.sample_id}

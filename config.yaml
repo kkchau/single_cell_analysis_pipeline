@@ -2,9 +2,9 @@ cellranger:
     path: /home/kkchau/cellranger-3.0.0/cellranger
     transcriptome: /home/kkchau/projects/references/refdata-cellranger-mm10-3.0.0
     ids: 
-        XH1:
+        HET:
             fastq: /home/kkchau/projects/Cul3Mice/XH1
             samples: SI-GA-E1_1,SI-GA-E1_2,SI-GA-E1_3,SI-GA-E1_4
-        XH2: 
+        WT: 
             fastq: /home/kkchau/projects/Cul3Mice/XH2
             samples: SI-GA-E2_1,SI-GA-E2_2,SI-GA-E2_3,SI-GA-E2_4

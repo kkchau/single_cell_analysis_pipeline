@@ -1,5 +1,12 @@
 __default__:
-    - partition: shared
-    - job-name: JOBNAME.{rule}.{wildcards}
-    - output: log/{rule}.{wildcards}.out
-    - error: log/{rule}.{wildcards}.err
+    partition: shared
+    job-name: "{rule}.{wildcards}"
+    output: log/{rule}.{wildcards}.out
+    error: log/{rule}.{wildcards}.err
+
+counts:
+    time: "20:00:00"
+    mem: 20G
+    job-name: snakejob.{rule}.{wildcards.sample_id}
+    output: "log/{rule}.{wildcards.sample_id}.out"
+    error: "log/{rule}.{wildcards.sample_id}.err"
