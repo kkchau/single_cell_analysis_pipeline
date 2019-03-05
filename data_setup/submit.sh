@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SBATCH -t 20:00:00 
+#SBATCH -t 30:00:00 
 #SBATCH -p shared
 #SBATCH --mem=5G
 #SBATCH -J SnakeJob

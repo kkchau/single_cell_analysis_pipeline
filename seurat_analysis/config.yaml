@@ -1,0 +1,5 @@
+ids:
+    HET: 
+        SEURAT: ../data_setup/data/HET/seruat.rds
+    WT:
+        SEURAT: ../data_setup/data/HET/seruat.rds   

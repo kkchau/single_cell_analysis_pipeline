@@ -1,16 +1,15 @@
 # Single-Cell RNA-seq Analysis with CellRanger and Seurat
 
-Author: Kevin Chau
+Author: Kevin Chau  
 Date: 2019-03-03
 
 Snakemake pipeline for single-cell RNA-seq analysis using cellranger and Seurat.
 
-## Instructions
+## Usage
 
-### Cellranger Counts (rule counts)
+Since downstream Seurat analysis requires some custom parameter inputs, this pipeline is divided into several parts:
+1. CellRanger is used to quantify the RNA-seq data and an initial Seurat object is initialized per sample.
+    * Browse the results of this portion of the pipeline and tune the respective parameters in `config.yaml`; details are outlined in the file
+2. This Seurat object is then processed utilizing user-defined parameters in `config.yaml`.
 
-1. Modify `config.yaml` as necessary for samples (see example strucuture under `config['cellranger']['ids']`
-    * If running on a cluster, modify cluster rules as necessary in `cluster.yaml`
-    * Please see cellranger [documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/fastq-input) for full description of parameters. This pipeline is based on FASTQ structure based on "Scenario: My FASTQs are in an output folder from mkfastq or bcl2fastq, but there are multiple folders per sample index, like 'SI-GA-A1_1' and 'SI-GA-A1_2'"
-
-### Seurat object construction
+### Initial counts and setup
