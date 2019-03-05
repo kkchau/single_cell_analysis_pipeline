@@ -44,6 +44,20 @@ rule seurat_combine:
     input:
         expand("data/{sample_id}/seurat_processed.rds", sample_id = config["ids"].keys())
     output:
-        "data/initialMultiCCA.rds"
+        "data/initialCCA.rds"
     script:
         "scripts/seurat_combine.R"
+
+rule seurat_align:
+    input:
+        "data/initialCCA.rds"
+    output:
+        cca_plots = "data/figures/cca_plots.pdf",
+        bicor_plot = "data/figures/bicor_plot.pdf",
+        heat_plot = "data/figures/heatmap.pdf",
+        cca_align = "data/ccaAlign.rds"
+    params:
+        heatmap_start = config['heatmap_dimensions']['START'],
+        heatmap_end = config['heatmap_dimensions']['END'],
+        align_dims_start = config['dim_to_align']['START'],
+        align_dims_end = config['dim_to_align']['END']

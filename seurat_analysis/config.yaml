@@ -15,3 +15,11 @@ ids:
         percent_mito:
             LOW: -Inf
             HIGH: 0.1
+
+heatmap_dimensions: 
+    START: 1
+    END: 9
+
+dim_to_align: 
+    START: 1
+    END: 20
