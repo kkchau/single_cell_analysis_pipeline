@@ -3,7 +3,6 @@
 #' @modified 2019-03-04
 #' @description Initialize Seurat object
 
-
 library(Seurat)
 library(tidyverse)
 

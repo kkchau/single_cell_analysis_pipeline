@@ -5,53 +5,6 @@ dir.create("../data/figures")
 
 library(Seurat)
 library(tidyverse)
-library(ggsignif)
-
-seurat_data <- Read10X(
-    data.dir = c(
-        HET = "../data/counts_results/XH1/outs/filtered_feature_bc_matrix/",
-        WT = "../data/counts_results/XH2/outs/filtered_feature_bc_matrix/"
-    )
-) %>%
-    CreateSeuratObject(project = "Cul3Mice", min.cells = 3) %>%
-    AddMetaData(
-        .,
-        metadata = (
-            Matrix::colSums(.@raw.data[
-                grep(pattern = "^mt-", rownames(.@raw.data), value = TRUE), 
-            ]) /
-                Matrix::colSums(.@raw.data)
-        ), 
-        col.name = "percent_mito"
-    )
-
-# Plots
-
-umi_vln <- VlnPlot(
-    seurat_data,
-    features.plot = c("nGene", "nUMI", "percent_mito"),
-    nCol = 3
-)
-ggsave(
-    filename = "../data/figures/UMI_Violin.pdf",
-    plot = umi_vln,
-    width = 16, height = 9, device = "pdf"
-)
-
-# WT filter
-
-GenePlot(
-    seurat_data,
-    gene1 = "nUMI",
-    gene2 = "nGene",
-    cell.ids = grep("WT", colnames(seurat_data@raw.data), value = TRUE)
-)
-GenePlot(
-    seurat_data,
-    gene1 = "nUMI",
-    gene2 = "percent_mito",
-    cell.ids = grep("WT", colnames(seurat_data@raw.data), value = TRUE)
-)
 
 seurat_filter_wt <- FilterCells(
     seurat_data,

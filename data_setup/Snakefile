@@ -42,6 +42,7 @@ rule counts:
             f"{config['cellranger']['ids'][wildcard.sample_id]['samples']}"
     shell: 
         "cd data; "
+        "rm -r {wildcards.sample_id}; "
         f"{cellranger} count "
         "--id={wildcards.sample_id} "
         "--fastqs={input.fqs} "
@@ -49,7 +50,10 @@ rule counts:
         f"--transcriptome={txtome}"
 
 rule format_for_seurat:
-    input: directory("data/{sample_id}/outs/filtered_feature_bc_matrix")
+    input: 
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv.gz",
     output: 
         "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx",
         "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv",

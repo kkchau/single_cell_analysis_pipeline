@@ -1,5 +1,17 @@
 ids:
     HET: 
-        SEURAT: ../data_setup/data/HET/seruat.rds
+        SEURAT: ../data_setup/data/HET/seurat.rds
+        nUMI:
+            LOW: 0
+            HIGH: 1250
+        percent_mito:
+            LOW: -Inf
+            HIGH: 0.15
     WT:
-        SEURAT: ../data_setup/data/HET/seruat.rds   
+        SEURAT: ../data_setup/data/WT/seurat.rds   
+        nUMI:
+            LOW: 50
+            HIGH: 1400
+        percent_mito:
+            LOW: -Inf
+            HIGH: 0.1

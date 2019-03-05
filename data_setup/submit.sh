@@ -6,6 +6,8 @@
 #SBATCH -J SnakeJob
 #SBATCH -o mainSnakeJob.out
 
+source activate seurat
+
 snakemake -j 999 \
     --cluster-config cluster.yaml \
     --cluster "sbatch \

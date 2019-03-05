@@ -1,6 +1,0 @@
-channels:
-    - r
-    - conda-forge
-    - bioconda
-dependencies:
-    - r-seurat

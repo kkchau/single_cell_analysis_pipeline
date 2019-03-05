@@ -18,59 +18,32 @@ if not os.path.exists("data/figures"):
 if not os.path.exists("log"):
     os.makedirs("log")
 
-# Declare software
-cellranger = config["cellranger"]["path"]
-
-# References
-txtome = config["cellranger"]["transcriptome"]
-
-# Samples
-sample_ids = config["cellranger"]["ids"]
-
 rule all:
    input: 
-        expand("data/{sample_id}/seurat.rds", sample_id = config["cellranger"]["ids"].keys())
+        "data/initialMultiCCA.rds"
 
-rule counts:
-    input: 
-        fqs = lambda wildcard: 
-            f"{config['cellranger']['ids'][wildcard.sample_id]['fastq']}"
-    output: 
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv.gz",
+rule seurat_process:
+    input:
+        lambda wildcard: 
+            f"{config['ids'][wildcard.sample_id]['SEURAT']}"
+    output:
+        "data/{sample_id}/seurat_processed.rds"
     params:
-        samples = lambda wildcard:
-            f"{config['cellranger']['ids'][wildcard.sample_id]['samples']}"
-    shell: 
-        "cd data; "
-        f"{cellranger} count "
-        "--id={wildcards.sample_id} "
-        "--fastqs={input.fqs} "
-        "--sample={params.samples} "
-        f"--transcriptome={txtome}"
-
-rule format_for_seurat:
-    input: directory("data/{sample_id}/outs/filtered_feature_bc_matrix")
-    output: 
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/genes.tsv",
-    shell:
-        "gunzip data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/*.gz; "
-        "cp data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/features.tsv "
-        "data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/genes.tsv"
-        
-
-rule build_seurat:
-    input: 
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv",
-        "data/{sample_id}/outs/filtered_feature_bc_matrix/genes.tsv",
-    output: "data/{sample_id}/seurat.rds"
-    params:
-        data_dir = "data/{sample_id}/outs/filtered_feature_bc_matrix"
+        nUMI_low = lambda wildcard:
+            f"{config['ids'][wildcard.sample_id]['nUMI']['LOW']}",
+        nUMI_high = lambda wildcard:
+            f"{config['ids'][wildcard.sample_id]['nUMI']['HIGH']}",
+        percent_mito_low = lambda wildcard:
+            f"{config['ids'][wildcard.sample_id]['percent_mito']['LOW']}",
+        percent_mito_high = lambda wildcard:
+            f"{config['ids'][wildcard.sample_id]['percent_mito']['HIGH']}"
     script:
-        "scripts/build_seurat.R"
+        "scripts/seurat_process.R"
+
+rule seurat_combine:
+    input:
+        expand("data/{sample_id}/seurat_processed.rds", sample_id = config["ids"].keys())
+    output:
+        "data/initialMultiCCA.rds"
+    script:
+        "scripts/seurat_combine.R"
