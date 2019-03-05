@@ -6,3 +6,5 @@ log/
 .rds
 .RData
 .Rhistory
+*DS_Store
+
