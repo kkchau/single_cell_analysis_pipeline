@@ -266,5 +266,4 @@ dependencies:
   - xz=5.2.4=h14c3975_1001
   - yaml=0.1.7=had09818_2
   - zlib=1.2.11=h14c3975_1004
-prefix: /home/kkchau/miniconda3/envs/seurat
 
