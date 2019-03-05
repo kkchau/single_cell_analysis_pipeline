@@ -24,10 +24,10 @@ Since downstream Seurat analysis requires some custom parameter inputs, this pip
 2. This Seurat object is then processed utilizing user-defined parameters in `seurat_analysis/config.yaml`.
 3. Many scripts from `seurat_analysis/scripts` are replicated in `user_analysis`. This directory is provided as a convenient workspace for the user. 
 
-### Initial counts and setup
+### Initial counts and setup (data_setup)
 
 Run this pipeline first to generate initial Seurat object. User should inspect `data/{sample_id}/violin_and_scatter.pdf` and set `nUMI` and `percent_mito` in `seurat_analysis/config.yaml` as necessary.
 
-### Automated Seurat analysis
+### Automated Seurat analysis (seurat_analysis)
 
 After modifying `seurat_analysis/config.yaml`, the user may run this pipeline to integrate multiple single-cell analyses and perform preliminary analyses. 
