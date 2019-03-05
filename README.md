@@ -1,7 +1,7 @@
 # Single-Cell RNA-seq Analysis with CellRanger and Seurat
 
 Author: Kevin Chau  
-Date: 2019-03-03
+Date: 2019-03-04
 
 Snakemake pipeline for single-cell RNA-seq analysis using cellranger and Seurat.
 
