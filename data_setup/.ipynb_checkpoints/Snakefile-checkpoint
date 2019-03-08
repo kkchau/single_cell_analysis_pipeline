@@ -1,0 +1,78 @@
+"""
+__author__ = "Kevin Chau"
+__date-created__ = "2019-03-02"
+__date-modified__ = "2019-03-04"
+"""
+
+import os
+
+localrules: all, format_for_seurat, build_seurat
+
+configfile: "config.yaml"
+
+# Setup pipeline directories
+if not os.path.exists("data"):
+    os.makedirs("data")
+if not os.path.exists("log"):
+    os.makedirs("log")
+
+# Declare software
+cellranger = config["cellranger"]["path"]
+
+# References
+txtome = config["cellranger"]["transcriptome"]
+
+# Samples
+sample_ids = config["cellranger"]["ids"]
+
+rule all:
+   input: 
+        expand("data/{sample_id}/seurat.rds", sample_id = config["cellranger"]["ids"].keys())
+
+rule counts:
+    input: 
+        fqs = lambda wildcard: 
+            f"{config['cellranger']['ids'][wildcard.sample_id]['fastq']}"
+    output: 
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv.gz",
+    params:
+        samples = lambda wildcard:
+            f"{config['cellranger']['ids'][wildcard.sample_id]['samples']}"
+    shell: 
+        "cd data; "
+        "rm -r {wildcards.sample_id}; "
+        f"{cellranger} count "
+        "--id={wildcards.sample_id} "
+        "--fastqs={input.fqs} "
+        "--sample={params.samples} "
+        f"--transcriptome={txtome}"
+
+rule format_for_seurat:
+    input: 
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv.gz",
+    output: 
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/genes.tsv",
+    shell:
+        "gunzip data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/*.gz; "
+        "cp data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/features.tsv "
+        "data/{wildcards.sample_id}/outs/filtered_feature_bc_matrix/genes.tsv"
+        
+
+rule build_seurat:
+    input: 
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/matrix.mtx",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/barcodes.tsv",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/features.tsv",
+        "data/{sample_id}/outs/filtered_feature_bc_matrix/genes.tsv",
+    output: "data/{sample_id}/seurat.rds"
+    params:
+        data_dir = "data/{sample_id}/outs/filtered_feature_bc_matrix"
+    script:
+        "scripts/build_seurat.R"
