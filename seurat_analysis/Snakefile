@@ -1,7 +1,7 @@
 """
 __author__ = "Kevin Chau"
 __date-created__ = "2019-03-04"
-__date-modified__ = "2019-03-04"
+__date-modified__ = "2019-03-08"
 """
 
 import os
@@ -52,9 +52,7 @@ rule seurat_align:
     input:
         "data/initialCCA.rds"
     output:
-        cca_plots = "data/figures/cca_plots.pdf",
-        bicor_plot = "data/figures/bicor_plot.pdf",
-        heat_plot = "data/figures/heatmap.pdf",
+        alignment_plots = "data/figures/seurat_alignments.pdf",
         cca_align = "data/ccaAlign.rds"
     params:
         heatmap_start = config['heatmap_dimensions']['START'],

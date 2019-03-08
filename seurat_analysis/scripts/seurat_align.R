@@ -1,6 +1,6 @@
 #' @author Kevin Chau
 #' @created 2019-03-05
-#' @modified 2019-03-05
+#' @modified 2019-03-08
 #' @description Align the subspaces of the merged Seurat object
 
 library(Seurat)
@@ -10,37 +10,25 @@ seurat_merge <- readRDS(snakemake@input[[1]])
 
 # Visualze CCA
 
-cca_p1 <- DimPlot(
+pdf(snakemake@output[[1]], width = 16, height = 9)
+
+DimPlot(
     object = seurat_merge, 
     reduction.use = "cca", group.by = "name", 
     pt.size = 0.5, do.return = TRUE
 )
-cca_p2 <- VlnPlot(
+VlnPlot(
     object = seurat_merge, 
     features.plot = "CC1", group.by = "name", 
     do.return = TRUE
 )
-pdf(snakemake@output[["cca_plots"]], width = 16, height = 9)
-print(cca_p1)
-print(cca_p2)
-dev.off()
-# ggsave(
-#     filename = snakemake@output[["cca_plots"]],
-#     plot = plot_grid(cca_p1, cca_p2),
-#     width = 16, height = 9, device = "pdf"
-# )
 
-bicor_pt <- MetageneBicorPlot(
+MetageneBicorPlot(
     seurat_merge, grouping.var = "name", 
     dims.eval = 1:30, display.progress = TRUE
 )
-ggsave(
-    filename = snakemake@output[["bicor_plot"]],
-    plot = bicor_pt,
-    width = 16, height = 9, device = "pdf"
-)
 
-dim_heat <- DimHeatmap(
+DimHeatmap(
     object = seurat_merge, reduction.type = "cca", 
     cells.use = 500, 
     dim.use = seq(
@@ -49,11 +37,6 @@ dim_heat <- DimHeatmap(
     ), 
     do.balanced = TRUE, 
     do.return = TRUE
-)
-ggsave(
-    filename = snakemake@output[["heat_plot"]],
-    plot = dim_heat,
-    width = 16, height = 9, device = "pdf"
 )
 
 # Align subspaces
