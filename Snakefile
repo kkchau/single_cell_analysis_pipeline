@@ -29,8 +29,9 @@ rule all:
 
 rule seurat_process:
     input:
-        lambda wildcard: 
-            f"{config['ids'][wildcard.sample_id]['SEURAT']}"
+        data_setup(
+            "data/{sample_id}/seurat.rds"
+        )
     output:
         "data/{sample_id}/seurat_processed.rds"
     params:
@@ -71,7 +72,7 @@ rule tsne:
     input:
         "data/ccaAlign.rds"
     output:
-        tsne = "data/seurat_tsne.rds",
+        "data/seurat_tsne.rds",
         "data/figures/merged_tsne.pdf",
         expand("data/figures/{sample_id}_tsne.pdf", sample_id = config["ids"].keys())
     params:
