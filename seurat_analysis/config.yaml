@@ -23,3 +23,5 @@ heatmap_dimensions:
 dim_to_align: 
     START: 1
     END: 20
+    
+tsne_resolution: 0.8

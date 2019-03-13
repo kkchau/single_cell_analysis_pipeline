@@ -3,6 +3,8 @@ data/
 log/
 .vscode/
 
+*.ipynb*
+
 .rds
 .RData
 .Rhistory

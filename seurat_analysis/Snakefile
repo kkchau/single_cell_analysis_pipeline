@@ -1,7 +1,7 @@
 """
 __author__ = "Kevin Chau"
 __date-created__ = "2019-03-04"
-__date-modified__ = "2019-03-08"
+__date-modified__ = "2019-03-09"
 """
 
 import os
@@ -61,3 +61,15 @@ rule seurat_align:
         align_dims_end = config['dim_to_align']['END']
     script:
         "scripts/seurat_align.R"
+
+rule tsne:
+    input:
+        "data/ccaAlign.rds"
+    output:
+        tsne = "data/seurat_tsne.rds",
+        "data/figures/merged_tsne.pdf",
+        expand("data/figures/{sample_id}_tsne.pdf", sample_id = config["ids"].keys())
+    params:
+        align_dims_start = config['dim_to_align']['START'],
+        align_dims_end = config['dim_to_align']['END'],
+        tsne_resolution = config['tsne_resolution']
