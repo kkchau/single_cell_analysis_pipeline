@@ -18,6 +18,11 @@ if not os.path.exists("data/figures"):
 if not os.path.exists("log"):
     os.makedirs("log")
 
+subworkflow data_setup:
+    workdir: "data_setup"
+    snakefile: "data_setup/Snakefile"
+    configfile: "data_setup/config.yaml"
+
 rule all:
    input: 
         "data/ccaAlign.rds"
