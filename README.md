@@ -1,7 +1,6 @@
 # Single-Cell RNA-seq Analysis with CellRanger and Seurat
 
 Author: Kevin Chau
-Date: 2019-03-04
 
 Snakemake pipeline for single-cell RNA-seq analysis using cellranger and Seurat.
 
@@ -10,7 +9,7 @@ Snakemake pipeline for single-cell RNA-seq analysis using cellranger and Seurat.
 Included is a convenient `conda` environment description for ease-of-use and replicability. Please call
 
 ```sh
-conda create -f conda.yaml
+conda env create -f conda.yaml
 source activate seurat
 ```
 
