@@ -25,7 +25,9 @@ subworkflow data_setup:
 
 rule all:
    input: 
-        "data/ccaAlign.rds"
+        "data/seurat_tsne.rds",
+        "data/figures/merged_tsne.pdf",
+        "data/figures/individual_tsne.pdf",
 
 rule seurat_process:
     input:
@@ -74,8 +76,10 @@ rule tsne:
     output:
         "data/seurat_tsne.rds",
         "data/figures/merged_tsne.pdf",
-        expand("data/figures/{sample_id}_tsne.pdf", sample_id = config["ids"].keys())
+        "data/figures/individual_tsne.pdf",
     params:
         align_dims_start = config['dim_to_align']['START'],
         align_dims_end = config['dim_to_align']['END'],
         tsne_resolution = config['tsne_resolution']
+    script:
+        "scripts/tsne.R"
