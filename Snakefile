@@ -18,14 +18,22 @@ if not os.path.exists("data/figures"):
 if not os.path.exists("log"):
     os.makedirs("log")
 
+subworkflow data_setup:
+    workdir: "data_setup"
+    snakefile: "data_setup/Snakefile"
+    configfile: "data_setup/config.yaml"
+
 rule all:
    input: 
-        "data/ccaAlign.rds"
+        "data/seurat_tsne.rds",
+        "data/figures/merged_tsne.pdf",
+        "data/figures/individual_tsne.pdf",
 
 rule seurat_process:
     input:
-        lambda wildcard: 
-            f"{config['ids'][wildcard.sample_id]['SEURAT']}"
+        data_setup(
+            "data/{sample_id}/seurat.rds"
+        )
     output:
         "data/{sample_id}/seurat_processed.rds"
     params:
@@ -66,10 +74,12 @@ rule tsne:
     input:
         "data/ccaAlign.rds"
     output:
-        tsne = "data/seurat_tsne.rds",
+        "data/seurat_tsne.rds",
         "data/figures/merged_tsne.pdf",
-        expand("data/figures/{sample_id}_tsne.pdf", sample_id = config["ids"].keys())
+        "data/figures/individual_tsne.pdf",
     params:
         align_dims_start = config['dim_to_align']['START'],
         align_dims_end = config['dim_to_align']['END'],
         tsne_resolution = config['tsne_resolution']
+    script:
+        "scripts/tsne.R"

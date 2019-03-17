@@ -1,6 +1,6 @@
+# These ids should be the same as the directories in data_setup/data
 ids:
-    HET: 
-        SEURAT: ../data_setup/data/HET/seurat.rds
+    HET:
         nUMI:
             LOW: 0
             HIGH: 1250
@@ -8,7 +8,6 @@ ids:
             LOW: -Inf
             HIGH: 0.15
     WT:
-        SEURAT: ../data_setup/data/WT/seurat.rds   
         nUMI:
             LOW: 50
             HIGH: 1400
@@ -16,12 +15,12 @@ ids:
             LOW: -Inf
             HIGH: 0.1
 
-heatmap_dimensions: 
+heatmap_dimensions:
     START: 1
     END: 9
 
-dim_to_align: 
+dim_to_align:
     START: 1
     END: 20
-    
+
 tsne_resolution: 0.8
