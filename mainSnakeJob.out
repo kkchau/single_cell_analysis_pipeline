@@ -1,0 +1,48 @@
+/var/spool/slurmd/job21966172/slurm_script: line 9: activate: No such file or directory
+Building DAG of jobs...
+Executing subworkflow data_setup.
+Building DAG of jobs...
+Nothing to be done.
+Complete log: /home/kkchau/single_cell_analysis_pipeline/data_setup/.snakemake/log/2019-03-18T162152.222419.snakemake.log
+Executing main workflow.
+Using shell: /bin/bash
+Provided cluster nodes: 999
+Job counts:
+	count	jobs
+	1	all
+	1	seurat_align
+	1	seurat_combine
+	1	seurat_process
+	1	tsne
+	5
+
+[Mon Mar 18 16:22:02 2019]
+rule seurat_process:
+    input: /home/kkchau/single_cell_analysis_pipeline/data_setup/data/WT/seurat.rds
+    output: data/WT/seurat_processed.rds
+    jobid: 5
+    wildcards: sample_id=WT
+
+Submitted job 5 with external jobid 'Submitted batch job 21966175'.
+[Mon Mar 18 16:24:32 2019]
+Finished job 5.
+1 of 5 steps (20%) done
+
+[Mon Mar 18 16:24:32 2019]
+rule seurat_combine:
+    input: data/HET/seurat_processed.rds, data/WT/seurat_processed.rds
+    output: data/initialCCA.rds
+    jobid: 3
+
+Submitted job 3 with external jobid 'Submitted batch job 21966178'.
+[Mon Mar 18 16:28:02 2019]
+Finished job 3.
+2 of 5 steps (40%) done
+
+[Mon Mar 18 16:28:02 2019]
+rule seurat_align:
+    input: data/initialCCA.rds
+    output: data/figures/seurat_alignments.pdf, data/ccaAlign.rds
+    jobid: 2
+
+Submitted job 2 with external jobid 'Submitted batch job 21966430'.

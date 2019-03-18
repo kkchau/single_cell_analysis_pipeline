@@ -1,8 +1,19 @@
 __default__:
     partition: shared
-    job-name: "{rule}.{wildcards}"
-    output: log/{rule}.{wildcards}.out
-    error: log/{rule}.{wildcards}.err
+    job-name: "{rule}_{wildcards}"
+    output: log/{rule}_{wildcards.sample_id}.out
+    error: log/{rule}_{wildcards.sample_id}.err
+
+counts:
+    time: "20:00:00"
+    mem: 20G
+    job-name: snakejob.{rule}.{wildcards.sample_id}
+    output: "log/{rule}.{wildcards.sample_id}.out"
+    error: "log/{rule}.{wildcards.sample_id}.err"
+
+seurat_process:
+    time: "05:00:00"
+    mem: 10G
 
 seurat_combine:
     time: "05:00:00"

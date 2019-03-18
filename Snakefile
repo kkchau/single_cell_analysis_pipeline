@@ -6,8 +6,6 @@ __date-modified__ = "2019-03-09"
 
 import os
 
-localrules: all, seurat_process
-
 configfile: "config.yaml"
 
 # Setup pipeline directories
